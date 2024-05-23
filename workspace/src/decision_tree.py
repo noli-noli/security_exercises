@@ -1,8 +1,8 @@
 import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
 import os
 from sklearn.tree import DecisionTreeClassifier,export_graphviz
+from sklearn.metrics import confusion_matrix, accuracy_score, precision_score, recall_score, f1_score
+from sklearn.model_selection import train_test_split
 #下記は決定木可視化のためのツール
 import pydotplus
 from IPython.display import Image
@@ -24,10 +24,28 @@ y = MalwareDataset["legitimate"]
 
 
 
+X_train, X_test, y_train, y_test = train_test_split(
+        X, y, test_size=0.2, shuffle=True, random_state=101
+        )
+
+
+
 #決定木のモデルを構築する。なお最大の深さは3とする
 DecisionTree = DecisionTreeClassifier(max_depth=3)
 #学習
-DecisionTree.fit(X,y)
+DecisionTree.fit(X_train,y_train)
+
+
+
+# テスト用のデータを使用して推論
+pred = DecisionTree.predict(X_test)
+
+
+
+# 予測結果とテスト用のデータを使って正解率と、混同行列を出力
+print("Precision: {:.5f}".format(precision_score(y_test, pred)))
+print("Recall: {:.5f}".format(recall_score(y_test, pred)))
+print("F1 Score: {:.5f}".format(f1_score(y_test, pred)))
 
 
 
