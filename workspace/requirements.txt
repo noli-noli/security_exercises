@@ -1,0 +1,13 @@
+pandas-profiling
+pefile
+scikit-learn
+optuna
+lief
+xgboost
+lightgbm
+karas
+tensorflow
+plotly 
+kaleido
+pydotplus
+IPython

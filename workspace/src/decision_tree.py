@@ -9,24 +9,32 @@ from IPython.display import Image
 from six import StringIO
 
 
-data = os.path.join("/workspace","src","Decisiontree","MalwareData.csv")
+
+#データセットのpath指定
+data = os.path.join("/workspace","dataset","MalwareData.csv")
 
 
+
+#pandasでデータセットをッ読込む
 MalwareDataset = pd.read_csv(data,sep='|')
-#MalwareDatasetからname,md5,legitimateを除外してXに格納する
-X = MalwareDataset.loc[:,["ImageBase","Subsystem"]]
-#legitimateをyに格納する
+#説明変数にImageBaseとSubsystemを格納する
+X = MalwareDataset.loc[:,["ImageBase"]]
+#目的変数にlegitimate(マルウェアであれば0、クリーンウェアであれば1)を格納する
 y = MalwareDataset["legitimate"]
 
 
-#決定木のモデルを構築する。
-DecisionTree = DecisionTreeClassifier()
+
+#決定木のモデルを構築する。なお最大の深さは3とする
+DecisionTree = DecisionTreeClassifier(max_depth=3)
+#学習
 DecisionTree.fit(X,y)
 
 
+
+#決定木の可視化
 dot_data = StringIO() #dotファイル情報の格納先
 export_graphviz(DecisionTree, out_file=dot_data,  
-                     feature_names=["ImageBase", "Subsystem"],
+                     feature_names=["ImageBase"],
                      class_names=["False","True"],
                      filled=True, rounded=True,  
                      special_characters=True) 

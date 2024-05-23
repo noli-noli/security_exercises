@@ -6,7 +6,7 @@ services:
 
     #ビルド
     build:
-      context: .
+      context: ./workspace
       #ビルドする際に使用するdockerfileを指定
       dockerfile: dockerfile
 
